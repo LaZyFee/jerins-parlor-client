@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Store/AuthStore";
 import PrimaryButton from "../../Components/PrimaryButton";
 import { toast } from "react-hot-toast";
+import logo from "../../assets/images/logo.png";
+import googleLogo from "public/assets/icons/Group 573.png";
 
 function Login() {
   const {
@@ -39,11 +41,7 @@ function Login() {
     <div className="hero min-h-screen">
       <div className="hero-content flex-col">
         <div className="text-center">
-          <img
-            src="public/assets/logo.png"
-            alt="signup"
-            className="w-1/2 mx-auto"
-          />
+          <img src={logo} alt="signup" className="w-1/2 mx-auto" />
         </div>
         <div className="card w-full max-w-sm shrink-0">
           <form onSubmit={handleSubmit(handleLogin)}>
@@ -107,11 +105,7 @@ function Login() {
             className="btn btn-outline btn-info rounded-xl text-xl flex items-center justify-center"
             onClick={handleGoogleLogin}
           >
-            <img
-              src="public/assets/icons/Group 573.png"
-              alt="google icon"
-              className="w-5 mr-2"
-            />
+            <img src={googleLogo} alt="google icon" className="w-5 mr-2" />
             <span className="flex-1 text-center">Continue with Google</span>
           </div>
         </div>
