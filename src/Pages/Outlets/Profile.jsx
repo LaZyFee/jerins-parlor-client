@@ -33,12 +33,14 @@ function Profile() {
           <figure className="px-5 pt-5">
             <img
               src={
-                user.profilePic
-                  ? `${import.meta.env.VITE_BACKEND_URL}/${user.profilePic}`
-                  : noImageFound
+                user.profilePic?.startsWith("https")
+                  ? user.profilePic // Absolute URL
+                  : user.profilePic
+                  ? `${import.meta.env.VITE_BACKEND_URL}/${user.profilePic}` // Relative path
+                  : noImageFound // Fallback image
               }
               className="rounded-xl"
-              alt="user profile"
+              alt={user.name || "user profile"}
             />
           </figure>
           <div className="card-body">

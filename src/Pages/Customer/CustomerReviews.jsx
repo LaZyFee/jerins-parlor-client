@@ -19,7 +19,6 @@ function CustomerReviews() {
     setValue,
   } = useForm();
   const { user } = useAuth();
-  console.log(user);
 
   const handleStarClick = (value) => {
     setRating(value);

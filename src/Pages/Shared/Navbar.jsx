@@ -83,13 +83,15 @@ function Navbar() {
             >
               <div className="w-10 rounded-full">
                 <img
-                  alt="Profile"
                   src={
-                    user.profilePic
-                      ? `${import.meta.env.VITE_BACKEND_URL}/${user.profilePic}`
-                      : noImageFound
+                    user.profilePic?.startsWith("https")
+                      ? user.profilePic // Absolute URL
+                      : user.profilePic
+                      ? `${import.meta.env.VITE_BACKEND_URL}/${user.profilePic}` // Relative path
+                      : noImageFound // Fallback image
                   }
                   className="w-10 rounded-full"
+                  alt={user.name || "user profile"}
                 />
               </div>
             </div>

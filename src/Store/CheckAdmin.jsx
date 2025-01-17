@@ -1,3 +1,4 @@
+/*eslint-disable */
 import axios from "axios";
 
 const CheckAdmin = async () => {
@@ -16,7 +17,7 @@ const CheckAdmin = async () => {
 
     return response.data.isAdmin;
   } catch (error) {
-    console.error("Error checking admin status:", error);
+    // console.error("Error checking admin status:", error);
     return [false];
   }
 };

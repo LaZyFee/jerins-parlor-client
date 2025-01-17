@@ -47,15 +47,18 @@ function Reviews() {
               <div className="flex items-center mb-4">
                 <img
                   src={
-                    review.profilepic // Ensure you use the correct property name
+                    review.profilepic?.startsWith("https")
+                      ? review.profilepic // Absolute URL
+                      : review.profilepic
                       ? `${import.meta.env.VITE_BACKEND_URL}/${
                           review.profilepic
-                        }`
-                      : noImageFound
+                        }` // Relative path
+                      : noImageFound // Fallback image
                   }
-                  alt={review.username} // Use username for alt text
+                  alt={review.username || "User profile"} // Use username or fallback alt text
                   className="rounded-full w-16 h-16 mr-4"
                 />
+
                 <div>
                   <h3 className="font-bold">{review.username}</h3>
                 </div>
