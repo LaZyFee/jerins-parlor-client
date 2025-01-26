@@ -3,7 +3,8 @@ import axios from "axios";
 import CheckAdmin from "../Store/CheckAdmin";
 
 axios.defaults.withCredentials = true;
-
+axios.defaults.baseURL =
+  process.env.NODE_ENV === "production" ? "/api" : import.meta.env.VITE_API_URL;
 export const useAuth = create((set) => ({
   user: JSON.parse(localStorage.getItem("user")) || null,
   isAuthenticated: !!localStorage.getItem("user"),
@@ -27,15 +28,11 @@ export const useAuth = create((set) => ({
   signup: async (formData) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/register`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.post("/register", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       const { user, token } = response.data;
 
       localStorage.setItem("user", JSON.stringify(user));
@@ -60,10 +57,7 @@ export const useAuth = create((set) => ({
   login: async (email, password) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/login`,
-        { email, password }
-      );
+      const response = await axios.post("/login", { email, password });
       const { user, token } = response.data;
 
       localStorage.setItem("user", JSON.stringify(user));
@@ -88,7 +82,7 @@ export const useAuth = create((set) => ({
   logout: async () => {
     set({ isLoading: true, error: null });
     try {
-      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/logout`);
+      await axios.post("/logout");
       localStorage.removeItem("user");
       localStorage.removeItem("token");
       set({
@@ -102,25 +96,6 @@ export const useAuth = create((set) => ({
       set({ error: "Error logging out", isLoading: false });
       throw error;
     }
-  },
-
-  syncUserAcrossTabs: () => {
-    window.addEventListener("storage", async (event) => {
-      if (event.key === "user") {
-        const user = JSON.parse(event.newValue);
-        const isAuthenticated = !!user;
-        if (user) {
-          const isAdmin = await CheckAdmin();
-          set({ user, isAuthenticated, isAdmin });
-        } else {
-          set({
-            user: null,
-            isAuthenticated: false,
-            isAdmin: false,
-          });
-        }
-      }
-    });
   },
 
   checkAdminOnLoad: async () => {
@@ -139,5 +114,4 @@ export const useAuth = create((set) => ({
   },
 }));
 
-useAuth.getState().syncUserAcrossTabs();
 useAuth.getState().checkAdminOnLoad();

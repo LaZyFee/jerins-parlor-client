@@ -1,19 +1,11 @@
 /*eslint-disable */
-import axios from "axios";
+import axiosInstance from "../Services/axiosInstance";
 
 const CheckAdmin = async () => {
   const token = localStorage.getItem("token");
 
   try {
-    const response = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/check-admin`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      }
-    );
+    const response = await axiosInstance.get("/check-admin");
 
     return response.data.isAdmin;
   } catch (error) {

@@ -22,18 +22,15 @@ const StripeButton = ({
   const handleStripePayment = async () => {
     setLoading(true);
     try {
-      const { data: sessionData } = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/payment/stripe`,
-        {
-          orderItem,
-          totalPrice,
-          userId,
-          customerName,
-          customerEmail,
-          customerPhone,
-          bookingId,
-        }
-      );
+      const { data: sessionData } = await axios.post(`/payment/stripe`, {
+        orderItem,
+        totalPrice,
+        userId,
+        customerName,
+        customerEmail,
+        customerPhone,
+        bookingId,
+      });
 
       const stripe = await stripePromise;
       const { error } = await stripe.redirectToCheckout({

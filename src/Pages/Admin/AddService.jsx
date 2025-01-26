@@ -27,7 +27,7 @@ function AddService() {
     }
 
     axios
-      .post(`${import.meta.env.VITE_BACKEND_URL}/addService`, formData, {
+      .post(`/addService`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

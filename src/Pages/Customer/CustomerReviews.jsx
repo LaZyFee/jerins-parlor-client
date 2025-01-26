@@ -38,10 +38,7 @@ function CustomerReviews() {
         rating: data.rating,
         date: currentDate,
       };
-      await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/addReview`,
-        reviewData
-      );
+      await axios.post(`/addReview`, reviewData);
       toast.success("Review submitted successfully!");
       reset();
       setRating(0);
@@ -52,7 +49,7 @@ function CustomerReviews() {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/getAllServices`)
+      .get(`/getAllServices`)
       .then((response) => {
         setServices(response.data);
         setLoading(false);

@@ -10,14 +10,11 @@ const PayPalButton = ({ totalPrice, orderItems, userId }) => {
 
   const handleApprove = async (data, actions) => {
     try {
-      const { data: paymentData } = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/payment/paypal`,
-        {
-          totalPrice,
-          orderItems,
-          userId,
-        }
-      );
+      const { data: paymentData } = await axios.post(`/payment/paypal`, {
+        totalPrice,
+        orderItems,
+        userId,
+      });
       window.location.href = paymentData.redirectUrl;
     } catch (error) {
       console.error("Error initiating PayPal payment:", error);

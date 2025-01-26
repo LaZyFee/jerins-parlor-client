@@ -23,10 +23,7 @@ function Booking() {
         total: service.price,
       };
 
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/addBooking`,
-        bookingData
-      );
+      const response = await axios.post(`/addBooking`, bookingData);
 
       toast.success("Booking successful");
       navigate("booking-list");

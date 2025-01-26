@@ -21,7 +21,7 @@ function MakeAdmin() {
 
     // Send form data to backend
     axios
-      .put(`${import.meta.env.VITE_BACKEND_URL}/make-admin`, formData, {
+      .put(`/make-admin`, formData, {
         headers: {
           Authorization: `Bearer ${token}`, // Pass the token for authentication
         },

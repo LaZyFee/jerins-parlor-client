@@ -15,7 +15,7 @@ function ManageService() {
   // Fetch services from the backend
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/getAllServices`)
+      .get(`/getAllServices`)
       .then((response) => {
         setServices(response.data);
         setLoading(false);
@@ -36,9 +36,7 @@ function ManageService() {
   const removeService = () => {
     if (!selectedService) return; // Ensure there's a selected service ID
     axios
-      .delete(
-        `${import.meta.env.VITE_BACKEND_URL}/removeService/${selectedService}`
-      )
+      .delete(`/removeService/${selectedService}`)
       .then((response) => {
         if (response.data.service) {
           toast.success("Service deleted successfully");
@@ -89,7 +87,7 @@ function ManageService() {
                 <img
                   src={
                     service.image
-                      ? `${import.meta.env.VITE_BACKEND_URL}/${service.image}`
+                      ? `${import.meta.env.VITE_API_URL}/${service.image}`
                       : placeholderImage
                   }
                   alt={service.name || "Service Image"}

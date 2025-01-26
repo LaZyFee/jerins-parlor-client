@@ -34,15 +34,11 @@ function UpdateService() {
     formData.append("removeImage", removeImage);
 
     axios
-      .put(
-        `${import.meta.env.VITE_BACKEND_URL}/updateService/${serviceId}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      )
+      .put(`/updateService/${serviceId}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then(() => {
         toast.success("Service updated successfully");
         reset();
@@ -81,7 +77,7 @@ function UpdateService() {
             <img
               src={
                 service.image && !removeImage
-                  ? `${import.meta.env.VITE_BACKEND_URL}/${service.image}`
+                  ? `/${service.image}`
                   : placeholderImage
               }
               className="w-40 h-32 object-cover object-center"

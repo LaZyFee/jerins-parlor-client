@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../Store/AuthStore";
-import noImageFound from "../../assets/images/user.jpg";
+import noImageFound from "/assets/images/user.jpg";
 import axios from "axios";
 
 function Profile() {
@@ -12,9 +12,7 @@ function Profile() {
     if (user && user.email) {
       setLoading(true);
       axios
-        .get(
-          `${import.meta.env.VITE_BACKEND_URL}/getReviews?email=${user.email}`
-        )
+        .get(`/getReviews?email=${user.email}`)
         .then((response) => {
           setReviews(response.data);
           setLoading(false);
@@ -34,10 +32,10 @@ function Profile() {
             <img
               src={
                 user.profilePic?.startsWith("https")
-                  ? user.profilePic // Absolute URL
+                  ? user.profilePic
                   : user.profilePic
-                  ? `${import.meta.env.VITE_BACKEND_URL}/${user.profilePic}` // Relative path
-                  : noImageFound // Fallback image
+                  ? `${apiUrl}/${user.profilePic}`
+                  : noImageFound
               }
               className="rounded-xl"
               alt={user.name || "user profile"}

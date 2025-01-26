@@ -1,7 +1,7 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import NavLogo from "../../../src/assets/logo.png";
+import NavLogo from "/assets/images/logo.png";
 import { useAuth } from "../../Store/AuthStore";
-import noImageFound from "../../assets/images/user.jpg";
+import noImageFound from "/assets/images/user.jpg";
 import { toast } from "react-hot-toast";
 
 function Navbar() {
@@ -87,7 +87,7 @@ function Navbar() {
                     user.profilePic?.startsWith("https")
                       ? user.profilePic // Absolute URL
                       : user.profilePic
-                      ? `${import.meta.env.VITE_BACKEND_URL}/${user.profilePic}` // Relative path
+                      ? `${import.meta.env.VITE_API_URL}/${user.profilePic}` // Relative path
                       : noImageFound // Fallback image
                   }
                   className="w-10 rounded-full"

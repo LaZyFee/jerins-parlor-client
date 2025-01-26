@@ -7,7 +7,7 @@ function OrderList() {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/orders`)
+      .get(`/orders`)
       .then((response) => {
         setOrderList(response.data);
         setLoading(false);

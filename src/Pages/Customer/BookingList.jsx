@@ -15,11 +15,7 @@ function BookingList() {
     if (user && user.email) {
       setLoading(true);
       axios
-        .get(
-          `${import.meta.env.VITE_BACKEND_URL}/user/bookings?email=${
-            user.email
-          }`
-        )
+        .get(`/user/bookings?email=${user.email}`)
         .then((response) => {
           setBookingList(response.data);
           setLoading(false);
