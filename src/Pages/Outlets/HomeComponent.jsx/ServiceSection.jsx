@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { Link } from "react-router-dom";
 import PrimaryButton from "../../../Components/PrimaryButton";
 import { useEffect, useState } from "react";

@@ -61,7 +61,6 @@ function Reviews() {
                     alt={review.username || "User profile"}
                     className="rounded-full w-16 h-16 mr-4"
                   />
-                  ;
                   <div>
                     <h3 className="font-bold">{review.username}</h3>
                   </div>
