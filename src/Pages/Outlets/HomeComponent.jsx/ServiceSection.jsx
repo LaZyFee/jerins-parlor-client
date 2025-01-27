@@ -17,6 +17,7 @@ function ServiceSection() {
     axios
       .get(`/getAllServices`)
       .then((response) => {
+        console.log(response.data);
         setServices(response.data);
         setLoading(false);
       })

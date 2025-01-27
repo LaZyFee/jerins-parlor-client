@@ -15,6 +15,7 @@ function Services() {
     axios
       .get(`/getAllServices`)
       .then((response) => {
+        console.log(response.data);
         setServices(response.data);
         setLoading(false);
       })
@@ -33,42 +34,43 @@ function Services() {
       <h1 className="text-3xl font-bold text-center">All Services</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto lg:p-12">
-        {services.map((service) => (
-          <div
-            key={service._id}
-            className="text-center transition-transform duration-300 ease-in-out transform hover:shadow-2xl hover:scale-105"
-          >
-            <div className="card bg-base-100 w-auto shadow-xl">
-              <figure className="px-5 pt-5">
-                <img
-                  src={
-                    service.image
-                      ? `${apiUrl}/${service.image}`
-                      : placeholderImage
-                  }
-                  alt={service.name}
-                  className="w-full"
-                />
-              </figure>
-              <div className="card-body text-start">
-                <h2 className="card-title">{service.name}</h2>
-                <p>{service.description}</p>
-                <div className="card-actions justify-between items-center my-2">
-                  <div className="text-xl font-bold text-[#F63E7B]">
-                    ${service.price}
+        {Array.isArray(services) &&
+          services.map((service) => (
+            <div
+              key={service._id}
+              className="text-center transition-transform duration-300 ease-in-out transform hover:shadow-2xl hover:scale-105"
+            >
+              <div className="card bg-base-100 w-auto shadow-xl">
+                <figure className="px-5 pt-5">
+                  <img
+                    src={
+                      service.image
+                        ? `${apiUrl}/${service.image}`
+                        : placeholderImage
+                    }
+                    alt={service.name}
+                    className="w-full"
+                  />
+                </figure>
+                <div className="card-body text-start">
+                  <h2 className="card-title">{service.name}</h2>
+                  <p>{service.description}</p>
+                  <div className="card-actions justify-between items-center my-2">
+                    <div className="text-xl font-bold text-[#F63E7B]">
+                      ${service.price}
+                    </div>
+                    <Link
+                      to="/booking"
+                      state={{ service }} // Pass service data to the booking page
+                      className="bg-pink-600 text-white p-2 rounded-md btn"
+                    >
+                      Book Now
+                    </Link>
                   </div>
-                  <Link
-                    to="/booking"
-                    state={{ service }} // Pass service data to the booking page
-                    className="bg-pink-600 text-white p-2 rounded-md btn"
-                  >
-                    Book Now
-                  </Link>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );
