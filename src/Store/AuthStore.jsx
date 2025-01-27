@@ -4,7 +4,10 @@ import CheckAdmin from "../Store/CheckAdmin";
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL =
-  process.env.NODE_ENV === "production" ? "/api" : import.meta.env.VITE_API_URL;
+  import.meta.env.MODE === "production"
+    ? "https://jerins-parlour-server-gamma.vercel.app"
+    : import.meta.env.VITE_API_URL;
+
 export const useAuth = create((set) => ({
   user: JSON.parse(localStorage.getItem("user")) || null,
   isAuthenticated: !!localStorage.getItem("user"),
