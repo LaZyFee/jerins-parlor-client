@@ -6,6 +6,7 @@ import PrimaryButton from "../../Components/PrimaryButton";
 import { useAuth } from "../../Store/AuthStore";
 import PasswordStrengthMeter from "./PasswordStrentghMeter";
 import { IoCloudUploadOutline } from "react-icons/io5";
+import logo from "/assets/images/logo.png";
 
 function Signup() {
   const {
@@ -41,11 +42,7 @@ function Signup() {
 
   return (
     <>
-      <img
-        src="public/assets/logo.png"
-        alt="signup"
-        className="w-1/3 text-center mx-auto"
-      />
+      <img src={logo} alt="signup" className="w-1/3 text-center mx-auto" />
       <div className="flex w-full flex-col">
         <div className="hero my-10">
           <div className="flex-col border border-black p-4 lg:w-1/3">
@@ -150,9 +147,7 @@ function Signup() {
                     type="file"
                     id="profilePic"
                     className="hidden"
-                    {...register("profilePic", {
-                      required: "Profile picture is required",
-                    })}
+                    {...register("profilePic")}
                   />
                   {errors.profilePic && (
                     <p className="text-red-500">{errors.profilePic.message}</p>
