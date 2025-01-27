@@ -9,6 +9,8 @@ import { IoCloudUploadOutline } from "react-icons/io5";
 import logo from "/assets/images/logo.png";
 
 function Signup() {
+  const navigate = useNavigate();
+  const { signup, isLoading } = useAuth();
   const {
     register,
     handleSubmit,
@@ -16,8 +18,19 @@ function Signup() {
   } = useForm();
   const [signUpError, setSignUPError] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-  const { signup, isLoading } = useAuth();
+  const [imagePreview, setImagePreview] = useState(null);
+
+  // Handle image selection and preview
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleRemoveSelectedImage = () => {
+    setImagePreview(null);
+  };
 
   const handleSignUp = async (data) => {
     const { name, username, email, phone, password, profilePic } = data;
@@ -35,8 +48,8 @@ function Signup() {
       toast.success("Sign up successfully");
       navigate("/");
     } catch (error) {
-      setSignUPError("Error signing up", error);
-      toast.error("Error signing up", signUpError);
+      setSignUPError(error.response?.data?.message || "Error signing up");
+      toast.error(signUpError);
     }
   };
 
@@ -133,28 +146,57 @@ function Signup() {
                 {/* Render PasswordStrengthMeter only if password exists */}
                 {password && <PasswordStrengthMeter password={password} />}
 
-                <div>
-                  {/* Custom file upload button */}
+                <div className="form-control">
+                  {imagePreview && (
+                    <div className="relative my-5">
+                      <img
+                        src={imagePreview}
+                        alt="Preview"
+                        className="w-full h-36 object-contain rounded-lg"
+                      />
+                      <button
+                        type="button"
+                        className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full"
+                        onClick={handleRemoveSelectedImage}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  )}
                   <label
                     htmlFor="profilePic"
                     className="btn bg-[#F63E7B] text-white w-full lg:w-1/2 flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <IoCloudUploadOutline /> Upload Image
                   </label>
-
-                  {/* Hidden file input */}
                   <input
                     type="file"
                     id="profilePic"
                     className="hidden"
-                    {...register("profilePic")}
+                    {...register("profilePic", {
+                      validate: {
+                        isImage: (fileList) => {
+                          const allowedExtensions = /\.(jpg|jpeg|webp|png)$/i;
+                          return (
+                            fileList[0] &&
+                            allowedExtensions.test(fileList[0].name) &&
+                            "File must be a .jpg, .jpeg, .webp, or .png"
+                          );
+                        },
+                      },
+                    })}
+                    onChange={handleFileChange}
                   />
+                  {errors.profilePic && (
+                    <p className="text-red-500">{errors.profilePic.message}</p>
+                  )}
+
                   {errors.profilePic && (
                     <p className="text-red-500">{errors.profilePic.message}</p>
                   )}
                 </div>
 
-                <div className="form-control mt-6 items-center">
+                <div className="form-control mt-6 items-end">
                   <PrimaryButton type="submit" disabled={isLoading}>
                     {isLoading ? "Signing up..." : "Create an account"}
                   </PrimaryButton>
