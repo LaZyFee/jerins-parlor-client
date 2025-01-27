@@ -170,17 +170,6 @@ function Signup() {
             </div>
           </div>
         </div>
-        <div className="divider w-1/2 mx-auto">OR</div>
-        <div className="flex flex-col gap-5 place-items-center py-5">
-          <div className="btn btn-outline btn-info rounded-xl text-xl  w-full lg:w-1/3 flex items-center justify-center">
-            <img
-              src="public/assets/icons/Group 573.png"
-              alt="google icon"
-              className="w-5 mr-2"
-            />
-            <span className="flex-1 text-center">Continue with Google</span>
-          </div>
-        </div>
       </div>
     </>
   );
