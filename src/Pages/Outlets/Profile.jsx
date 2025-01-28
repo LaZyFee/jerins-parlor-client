@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../Store/AuthStore";
 import noImageFound from "/assets/images/user.jpg";
 import axios from "axios";
+import { apiUrl } from "../../utils/config";
 
 function Profile() {
   const [reviews, setReviews] = useState([]);
