@@ -22,7 +22,6 @@ function Signup() {
 
   const handleSignUp = async (data) => {
     const { name, username, email, phone, password, profilePic } = data;
-    console.log(data);
 
     const formData = new FormData();
     formData.append("name", name);
@@ -30,7 +29,7 @@ function Signup() {
     formData.append("email", email);
     formData.append("phone", phone);
     formData.append("password", password);
-    formData.append("profilePic", profilePic[0]);
+    formData.append("image", profilePic[0]);
     try {
       await signup(formData);
       toast.success("Account created successfully!");
