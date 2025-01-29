@@ -1,16 +1,20 @@
-/* eslint-disable no-unused-vars */
 import { useAuth } from "../../Store/AuthStore";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { useState } from "react";
+
 function Booking() {
   const location = useLocation();
   const { service } = location.state || {};
 
-  const { handleSubmit } = useForm();
+  const { handleSubmit, register } = useForm();
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  // Store phone input if the user has no phone number
+  const [phone, setPhone] = useState(user?.phone || "");
 
   const onSubmit = async () => {
     try {
@@ -18,7 +22,7 @@ function Booking() {
         userId: user._id,
         name: user.name,
         email: user.email,
-        phone: user.phone,
+        phone: phone, // Use state phone value
         service: service.name,
         total: service.price,
       };
@@ -45,32 +49,45 @@ function Booking() {
         className="w-screen lg:w-1/2 mx-auto"
       >
         <div className="form-control w-full">
+          {/* Name Input */}
           <input
-            className={`input input-bordered w-full my-2 bg-white text-black`}
+            className="input input-bordered w-full my-2 bg-white text-black"
             defaultValue={user?.name}
             readOnly
           />
 
           {/* Email Input */}
           <input
-            className={`input input-bordered w-full my-2 bg-white text-black`}
+            className="input input-bordered w-full my-2 bg-white text-black"
             defaultValue={user?.email}
             readOnly
           />
 
-          {/* Phone Input */}
-          <input
-            className={`input input-bordered w-full my-2 bg-white text-black`}
-            defaultValue={user?.phone}
-            readOnly
-          />
+          {/* Phone Input - Editable if missing */}
+          {user?.phone ? (
+            <input
+              className="input input-bordered w-full my-2 bg-white text-black"
+              defaultValue={user.phone}
+              readOnly
+            />
+          ) : (
+            <input
+              type="tel"
+              className="input input-bordered w-full my-2 bg-white text-black"
+              placeholder="Enter your phone number"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+            />
+          )}
+
           {/* Service Input */}
           <input
             type="text"
             readOnly
             className="input input-bordered w-full my-2 bg-white text-black"
             defaultValue={
-              service?.name || "Please Visit Avaialble Service page "
+              service?.name || "Please Visit Available Service page"
             }
           />
         </div>

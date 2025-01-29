@@ -27,9 +27,10 @@ function Profile() {
 
   return (
     <div className="min-h-screen">
-      <div className="flex flex-col lg:flex-row gap-4 lg:mx-10">
-        <div className="card mt-5 w-full max-w-md mx-auto shadow-xl text-start">
-          <figure className="px-5 pt-5">
+      <div className="flex flex-col lg:flex-row gap-4 lg:mx-10 lg:mt-10">
+        <div className="relative w-full max-w-sm overflow-hidden rounded-2xl shadow-xl transition-all duration-300 hover:shadow-2xl hover:scale-105">
+          {/* Profile Image with Overlay */}
+          <figure className="relative w-full">
             <img
               src={
                 user.profilePic?.startsWith("https")
@@ -38,14 +39,19 @@ function Profile() {
                   ? `${apiUrl}/${user.profilePic}`
                   : noImageFound
               }
-              className="rounded-xl"
-              alt={user.name || "user profile"}
+              className="h-full w-full object-cover rounded-2xl brightness-75 transition-all duration-300 hover:brightness-100"
+              alt={user.name || "User profile"}
             />
+            {/* Dark Overlay for Better Readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
           </figure>
-          <div className="card-body">
-            <h2 className="card-title">Name: {user.name}</h2>
-            <p>Username: {user.username}</p>
-            <p>Email: {user.email}</p>
+
+          {/* User Info */}
+          <div className="absolute bottom-6 left-0 w-full px-6 text-center text-primary">
+            <h2 className="text-2xl font-bold drop-shadow-md">
+              {user.username}
+            </h2>
+            <p className="text-sm text-gray-200">📧 {user.email}</p>
           </div>
         </div>
 
@@ -86,7 +92,9 @@ function Profile() {
                 </div>
               ))
             ) : (
-              <p>No reviews available.</p>
+              <p className="text-center text-xl">
+                You haven't made any reviews yet.
+              </p>
             )}
           </div>
         </div>

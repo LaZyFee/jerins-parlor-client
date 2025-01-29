@@ -15,55 +15,49 @@ function UpdateService() {
   const { register, handleSubmit, reset } = useForm();
   const [selectedImage, setSelectedImage] = useState(null);
   const [removeImage, setRemoveImage] = useState(false);
-  const [imagePreview, setImagePreview] = useState(null);
+  const [imagePreview, setImagePreview] = useState(
+    service?.image || placeholderImage
+  );
 
   const serviceId = service._id;
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("price", data.price);
     formData.append("description", data.description);
+    formData.append("removeImage", removeImage); // Send removeImage flag
 
-    // If a new image is selected and not marked for removal
     if (selectedImage && !removeImage) {
       formData.append("image", selectedImage);
     }
 
-    // Flag indicating whether to remove the image
-    formData.append("removeImage", removeImage);
-
-    axios
-      .put(`/updateService/${serviceId}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then(() => {
-        toast.success("Service updated successfully");
-        reset();
-        setImagePreview(null);
-        navigate("/admin/dashboard/manage-services");
-      })
-      .catch((err) => {
-        toast.error("Failed to update service");
-        console.error(err);
+    try {
+      await axios.put(`/updateService/${serviceId}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
+
+      toast.success("Service updated successfully");
+      reset();
+      navigate("/admin/dashboard/manage-services");
+    } catch (error) {
+      toast.error("Failed to update service");
+      console.error(error);
+    }
   };
 
-  // Handle file selection and preview generation
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setSelectedImage(file);
-      setImagePreview(URL.createObjectURL(file)); // Create preview for the selected file
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
-  // Handle toggling image removal
   const handleRemoveImage = () => {
-    setImagePreview(null); // Clear the image preview if removing the image
-    setSelectedImage(null); // Clear selected image if removing the image
+    setRemoveImage(true);
+    setImagePreview(placeholderImage);
+    setSelectedImage(null);
   };
 
   return (
@@ -77,7 +71,9 @@ function UpdateService() {
             <img
               src={
                 service.image && !removeImage
-                  ? `/${service.image}`
+                  ? service.image.startsWith("http")
+                    ? service.image
+                    : `/${service.image}`
                   : placeholderImage
               }
               className="w-40 h-32 object-cover object-center"

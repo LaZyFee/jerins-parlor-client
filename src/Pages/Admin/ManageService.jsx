@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast"; // Import toast library
+import { apiUrl } from "../../utils/config";
+import Skeleton from "../../Components/Skeleton";
 
 // Placeholder image for services with no image
 const placeholderImage = "https://via.placeholder.com/300x200?text=No+Image";
@@ -25,6 +27,10 @@ function ManageService() {
         setLoading(false);
       });
   }, []);
+
+  if (loading) {
+    return <Skeleton />;
+  }
 
   // Function to open the modal and store the service ID to be deleted
   const handleDeleteClick = (serviceId) => {
@@ -59,22 +65,6 @@ function ManageService() {
     setIsModalOpen(false); // Close the modal without deleting
   };
 
-  // Loading skeleton
-  if (loading) {
-    return (
-      <div className="flex w-52 flex-col gap-4 items-center justify-center">
-        <div className="flex items-center gap-4">
-          <div className="skeleton h-16 w-16 shrink-0 rounded-full"></div>
-          <div className="flex flex-col gap-4">
-            <div className="skeleton h-4 w-20"></div>
-            <div className="skeleton h-4 w-28"></div>
-          </div>
-        </div>
-        <div className="skeleton h-32 w-full"> </div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen py-5 bg-white">
       <h1 className="text-3xl font-bold text-center">All Services</h1>
@@ -86,8 +76,10 @@ function ManageService() {
               <figure>
                 <img
                   src={
-                    service.image
-                      ? `${import.meta.env.VITE_API_URL}/${service.image}`
+                    service.image.startsWith("https://")
+                      ? service.image
+                      : service.image
+                      ? `${apiUrl}/${service.image}`
                       : placeholderImage
                   }
                   alt={service.name || "Service Image"}

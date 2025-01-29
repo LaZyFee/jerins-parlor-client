@@ -25,6 +25,10 @@ function ServiceSection() {
       });
   }, []);
 
+  if (loading) {
+    return <Skeleton />;
+  }
+
   // Display only 3 services
   const limitedServices = services?.slice(0, 3);
 
@@ -35,10 +39,10 @@ function ServiceSection() {
       </h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mx-auto lg:mx-10">
-        {loading ? (
-          <Skeleton /> // Render Skeleton when loading
-        ) : services.length === 0 ? (
-          <p>No services available at the moment.</p> // Render message if no services are available
+        {services.length === 0 ? (
+          <p className="text-center text-xl text-red-500">
+            No services available at the moment.
+          </p> // Render message if no services are available
         ) : (
           Array.isArray(limitedServices) &&
           limitedServices.map((service) => (

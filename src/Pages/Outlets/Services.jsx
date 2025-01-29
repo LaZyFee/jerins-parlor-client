@@ -43,12 +43,14 @@ function Services() {
                 <figure className="px-5 pt-5">
                   <img
                     src={
-                      service.image
+                      service.image.startsWith("https://")
+                        ? service.image
+                        : service.image
                         ? `${apiUrl}/${service.image}`
                         : placeholderImage
                     }
                     alt={service.name}
-                    className="w-full"
+                    className="w-full h-56 object-cover"
                   />
                 </figure>
                 <div className="card-body text-start">
